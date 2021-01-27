@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormArray, FormBuilder} from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 import {DatabaseService}   from "../database.service";
+
+
 
 @Component({
   selector: 'app-order',
@@ -30,7 +34,8 @@ export class OrderComponent implements OnInit {
   id_: Array<any> = [];
   fullEditMode:boolean = false;
 
-  constructor(private fb: FormBuilder,private db: DatabaseService) { }
+  constructor(private fb: FormBuilder,private db: DatabaseService,
+        private dialogueRef: MatDialogRef<OrderComponent>) { }
 
   ngOnInit(): void {
     let d = new Date();
@@ -156,8 +161,9 @@ saveOrder(){
 
   }
     // save
-    this.db.sendData(data);
-
+    this.db.sendData(data).then(result =>{
+     this.dialogueRef.close();
+    });
 
 
 

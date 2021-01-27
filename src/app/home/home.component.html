@@ -1,69 +1,66 @@
-<button (click)="toggleBulkEdit()" expand="full">
-  Bulk Edit
-</button>
-
-
-<button (click)="bulkDelete()" expand="full" color="danger" *ngIf="bulkEdit">
-  Bulk Delet
-</button>
-
-<table>
-    <tr class="header-row">
-        <th *ngIf="bulkEdit"> Select
-
-        </th>
-        <th tappable (click)="sortBy('email')">Order ID
-            <span *ngIf="sortDirection== 1">
-
-            <i class="material-icons">arrow_drop_up</i>
-
-            </span>
-            <span *ngIf="sortDirection== 2">
-            <i class="material-icons">arrow_drop_down</i>
-
-            </span>
-
-
-        </th>
-
-        <th>Order Date</th>
-        <th>Status</th>
-        <!-- <th>Last Name</th>
-        <th>Phone</th> -->
-        <th *ngIf="!bulkEdit">
-            action</th>
-
-
-    </tr>
-
-    <tr *ngFor="let row of data; let i = index;">
-
-        <td>{{row.OrderId}}</td>
-        <td>{{row.OrderDate}}</td>
-        <td>{{row.Status}}</td>
-        <!-- <td>{{row.name?.last}}</td>
-        <td>{{row.phone}}</td> -->
-
-        <td *ngIf="!bulkEdit">
-            <button size="small" (click)="removeRow(i, row)" color="light" fill="clear">
-              <i class="material-icons">delete_forever</i>
-
-            </button>
-            <button size="small" (click)="sharedata(row)" routerLink="/edit" color="light" fill="clear">
-              <i class="material-icons">compare_arrows</i>
-
-            </button>
-
-        </td>
-
-    </tr>
-
-
-</table>
+<div class="search-div">
+    <mat-form-field class="search-from-field">
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+       <mat-icon>close</mat-icon>
+     </button>
+    </mat-form-field>
+</div>
 
 
 <div class="fab-button-container">
-    <button mat-fab color="accent" aria-label="Example icon button with a delete icon" routerLink="/OrderForm">
+    <button mat-fab color="accent" aria-label="Example icon button with a delete icon" (click)="onCreate()">
     <i class="material-icons">add</i>
   </button>
+</div>
+
+<div class="mat-elevation-z8">
+
+    <mat-table [dataSource]="listData" matSort>
+        <ng-container matColumnDef="OrderId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Order Id</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.OrderId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="OrderDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Order Date</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.OrderDate}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.Status}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-icon-button><mat-icon>launch</mat-icon></button>
+                <button mat-icon-button><mat-icon>delete_outlines</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+                Loading Data...
+            </mat-footer-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="6">
+                No Data.
+            </mat-footer-cell>
+
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': listData!=null}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(listData!=null && listData.data.length==0)}"></mat-footer-row>
+
+
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
 </div>

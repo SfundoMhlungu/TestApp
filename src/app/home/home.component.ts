@@ -1,9 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {OrderService}  from "../shared/order.service";
+import {OrderComponent} from "../order/order.component"
 
 
 import {openDB} from "idb/with-async-ittr-cjs";
 import {MatTableDataSource}  from "@angular/material/table";
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from "@angular/material/sort";
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -12,6 +20,11 @@ import {MatTableDataSource}  from "@angular/material/table";
 })
 export class HomeComponent implements OnInit {
 
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = ["OrderId", "OrderDate", "Status", "actions"];
+@ViewChild(MatSort) sort_: MatSort;
+@ViewChild(MatPaginator) paginator: MatPaginator;
+searchKey: string;
   page = 0;
   resultsCount= 10;
   totalPages = 10;
@@ -25,10 +38,12 @@ export class HomeComponent implements OnInit {
 
   sortKey = null;
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getData();
+
+
   }
 
   // sort
@@ -125,10 +140,38 @@ db.getAll("OrderStoreDB").then(result => {
   console.log(result)
   this.data = result;
 
+ this.listData = new MatTableDataSource(this.data);
+ this.listData.sort = this.sort_;
+ this.listData.paginator = this.paginator;
+
 
   console.log(this.data)
 })
 }
 
 // get data end
+
+onSearchClear(){
+  this.searchKey = "";
+  this.applyFilter();
+}
+
+applyFilter(){
+  this.listData.filter = this.searchKey.trim().toLowerCase();
+}
+
+onCreate(){
+ const dialogueConfig = new MatDialogConfig();
+ dialogueConfig.disableClose = false;
+//  dialogueConfig.autoFocus = true;
+ dialogueConfig.width = "80%";
+
+this.dialog.open(OrderComponent, dialogueConfig);
+this.dialog.afterAllClosed.subscribe(result => {
+  this.getData();
+})
+
+}
+
+
 }
