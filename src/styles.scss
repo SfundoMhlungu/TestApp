@@ -11,8 +11,18 @@ body {
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 1 1 auto;
+    a {
+        color: white;
+        text-decoration: none;
+    }
+    a.logo {
+        font-weight: bold;
+    }
+    h1 {
+        margin-top: 2em;
+    }
 }
 
 header {
@@ -41,12 +51,45 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html,
-body {
-    height: 100%;
+form.normal-form {
+    margin: 10px
 }
 
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+.controlers-container {
+    width: 100%;
+    padding: 5%;
+}
+
+.controlers-container>* {
+    width: 100%;
+}
+
+// .add-bottom-padding {
+//     padding-bottom: 10%;
+// }
+.add-bottom-padding div {
+    padding-bottom: 2%;
+}
+
+// .controlers-container-outer {
+//     display: flex;
+//     justify-content: space-evenly;
+//     padding-bottom: 2%;
+//     width: 30%;
+//     margin-left: 2px;
+// }
+// .controlers-container-outer div>* {
+//     display: flex;
+//     flex-direction: row;
+//     white-space: nowrap;
+// }
+.dynamicField {
+    display: flex;
+    width: 40%;
+    margin-left: 5%;
+    padding-bottom: .3%;
+}
+
+.addNewField {
+    margin-left: 5%;
 }

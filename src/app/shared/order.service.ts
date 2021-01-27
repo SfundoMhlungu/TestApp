@@ -3,18 +3,18 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ShareDataService {
+export class OrderService {
+
   data: any;
+
   constructor() { }
 
 
-
-
-  setData(data){
+ async setData(data: any) {
     this.data = data;
   }
 
-  getData(){
+  async getData(){
     return this.data;
   }
 }

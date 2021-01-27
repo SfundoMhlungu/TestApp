@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ShareDataService} from '../shared/share-data.service';
+import {OrderService}  from "../shared/order.service";
 
 
 import {openDB} from "idb/with-async-ittr-cjs";
+import {MatTableDataSource}  from "@angular/material/table";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   sortKey = null;
 
-  constructor( ) { }
+  constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.getData();
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
 
 
      sharedata(data){
-      // this.share.setData(data);
+      this.orderService.setData(data);
     }
 
 // remove row start

@@ -11,6 +11,9 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTableModule} from "@angular/material/table";
 
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -41,6 +44,9 @@ import { OrderComponent } from './order/order.component';
      MatIconModule,
      MatDatepickerModule,
      MatNativeDateModule,
+     MatToolbarModule,
+     MatGridListModule,
+     MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
