@@ -45,7 +45,7 @@ export class OrderComponent implements OnInit {
     let d = new Date();
 
     if(!window.indexedDB){
-      alert("please use a browser that")
+      alert("please use a browser that supports indexedDB");
     }
     this.orderForm = this.fb.group({
       OrderId : 0,
@@ -68,7 +68,8 @@ console.log("onedit", this.onEdit)
       console.log("onedit", this.onEdit)
 
       this.orderService.getData().then((result)=>{
-        console.log(result);
+
+
 
         if (result.isEdit){
 

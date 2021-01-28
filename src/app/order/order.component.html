@@ -52,18 +52,18 @@
                 <div class="add-bottom-padding">
                     <div>
                         <mat-label>Purchase Order</mat-label>
-                        <input type="file" placeholder={{Status}} (change)="onFileChangedPurchaseOrder($event)">
+                        <input type="file" (change)="onFileChangedPurchaseOrder($event)" />
                     </div>
 
                     <div>
                         <mat-label>invoice</mat-label>
 
-                        <input type="file" placeholder={{Status}} (change)="onFileChangedInvoice($event)">
+                        <input type="file" (change)="onFileChangedInvoice($event)" />
                     </div>
                     <div>
                         <mat-label>Delivery Note</mat-label>
 
-                        <input type="file" placeholder={{Status}} (change)="onFileChangedDeliveryNote($event)">
+                        <input type="file" (change)="onFileChangedDeliveryNote($event)" />
                     </div>
 
 

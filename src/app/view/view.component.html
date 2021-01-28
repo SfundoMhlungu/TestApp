@@ -54,7 +54,7 @@
 
                     <div *ngFor="let doc of data?.documents; let i=index" class="controlers-container-outer">
 
-                        <label for="OrderId"><b>Order ID</b></label>
+                        <label for="OrderId"><b>{{doc.name}}</b></label>
                         <input type="text" name="OrderId" required [readOnly]='true' value="{{doc.doc.name}}">
 
                     </div>
