@@ -4,6 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 
 import {DatabaseService}   from "../database.service";
+import { OrderService } from '../shared/order.service';
+import {openDB} from "idb/with-async-ittr-cjs";
 
 
 
@@ -34,8 +36,10 @@ export class OrderComponent implements OnInit {
   id_: Array<any> = [];
   fullEditMode:boolean = false;
 
+  onEdit: boolean;
+
   constructor(private fb: FormBuilder,private db: DatabaseService,
-        private dialogueRef: MatDialogRef<OrderComponent>) { }
+        private dialogueRef: MatDialogRef<OrderComponent>, private orderService: OrderService) { }
 
   ngOnInit(): void {
     let d = new Date();
@@ -51,7 +55,61 @@ export class OrderComponent implements OnInit {
         newFieldName: '',
       entireForm :this.fb.array([])
     })
+//
+this.dialogueRef.beforeClosed().subscribe(result =>{
+this.onEdit = false;
+console.log("onedit", this.onEdit)
+})
 
+
+// when the dialogues opens
+    this.dialogueRef.afterOpened().subscribe(result => {
+      this.onEdit = true;
+      console.log("onedit", this.onEdit)
+
+      this.orderService.getData().then((result)=>{
+        console.log(result);
+
+        if (result.isEdit){
+
+
+// start of if statement
+          if(result.data.additionalfields){
+          for (let additional of result.data.additionalfields){
+            for (var key in additional) {
+              if(additional.hasOwnProperty(key)){
+                console.log(key)
+                const field = this.fb.group({
+                  UserField: key,
+                  UserEntry: additional[key]
+                });
+
+
+                   this.entireForm.push(field);
+                   console.log(result.isEdit);
+              }
+            }
+
+
+      }
+    }
+    // end of if statement
+    this.orderForm.setValue({
+      OrderId : result.data.OrderId,
+        OrderDate :result.data.OrderDate,
+        Customer: result.data.Customer,
+        Status: result.data.Status,
+        newFieldName:  "",
+        entireForm: this.entireForm
+
+    })
+
+
+   console.log("orderform",this.entireForm)
+
+        }
+      })
+    })
   }
 
 
@@ -86,7 +144,7 @@ countFields(){
 
 }
 
-// edit starts
+// edit starts  redundat   remove after confirming it does not break anything
 fullEdit(){
   this.fullEditMode = true;
   this.orderForm.setValue({
@@ -99,7 +157,7 @@ fullEdit(){
 
   })
 }
-
+// redundat   remove after confirming it does not break anything
 confirmEdit(){
    this.fullEditMode = false;
 
@@ -133,6 +191,7 @@ saveOrder(){
     Customer: formData.Customer,
     Status: formData.Status,
     documents: [],
+    additionalfields: []
 
 
   }
@@ -156,20 +215,30 @@ saveOrder(){
   // add dynaic fields
   for(let form of this.entireForm.controls){
     console.log(form.value)
+    let add = {}
+    add[form.value.UserField] = form.value.UserEntry;
 
-    data[form.value.UserField] = form.value.UserEntry
+    data.additionalfields.push(add)
 
   }
     // save
-    this.db.sendData(data).then(result =>{
-     this.dialogueRef.close();
-    });
+
+      console.log("not edit mode")
+      this.db.sendData(data).then(result =>{
+        this.dialogueRef.close();
+       });
+
+// forseen: if the user changes order id, a new document is created, since it is indexedDB
+// handle in the future
 
 
 
 
 
    }
+
+
+
 
 // files change event
    onFileChangedDeliveryNote(event){

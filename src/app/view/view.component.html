@@ -1,0 +1,73 @@
+<div class="Viewcontainer">
+
+
+    <div class="columns">
+        <div class="col1">
+            <form>
+                <div class="container">
+                    <h1>Basic Info</h1>
+
+                    <hr>
+
+                    <label for="OrderId"><b>Order ID</b></label>
+                    <input type="text" name="OrderId" required [readOnly]='true' value="{{data.OrderId}}">
+
+                    <label for="OrderDate"><b>Order Date</b></label>
+                    <input type="text" name="OrderDate" required [readOnly]='true' value="{{data.OrderDate}}">
+
+
+                    <label for="" Customer><b>Customer</b></label>
+                    <input type="text" name="Customer" required [readOnly]='true' value="{{data.Customer}}">
+
+                    <label for="Status"><b>Status</b></label>
+                    <input type="text" name="Status" required [readOnly]='true' value="{{data.Status}}">
+
+                </div>
+
+
+            </form>
+        </div>
+        <div class="col2">
+            <form>
+                <div class="container">
+                    <h1>Custom Fields</h1>
+                    <hr>
+
+                    <div *ngFor="let doc of data?.additionalfields; let i=index" class="controlers-container-outer">
+
+                        <label for="OrderId"><b>{{keys[i]}}</b></label>
+                        <input type="text" name="OrderId" required [readOnly]='true' value="{{doc[keys[i]]}}">
+
+                    </div>
+
+
+                </div>
+
+
+            </form>
+        </div>
+        <div class="col3">
+            <form>
+                <div class="container">
+                    <h1>Documents</h1>
+                    <hr>
+
+                    <div *ngFor="let doc of data?.documents; let i=index" class="controlers-container-outer">
+
+                        <label for="OrderId"><b>Order ID</b></label>
+                        <input type="text" name="OrderId" required [readOnly]='true' value="{{doc.doc.name}}">
+
+                    </div>
+
+
+                </div>
+
+
+            </form>
+        </div>
+
+
+
+    </div>
+
+</div>

@@ -18,8 +18,10 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 
 
+
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,12 +29,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { OrderComponent } from './order/order.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ViewComponent } from './view/view.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    OrderComponent
+    OrderComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,9 @@ import { MatDialogModule } from '@angular/material/dialog';
      MatTableModule,
      MatPaginatorModule,
      MatSortModule,
-     MatDialogModule
+     MatDialogModule,
+     MatCardModule,
+     CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -6,15 +6,17 @@ import { Injectable } from '@angular/core';
 export class OrderService {
 
   data: any;
-
+  isEdit: boolean = false;
   constructor() { }
 
 
- async setData(data: any) {
+ async setData(data: any, isEdit:boolean) {
     this.data = data;
+    this.isEdit = isEdit;
   }
 
   async getData(){
-    return this.data;
+    let obj = {data: this.data, isEdit: this.isEdit};
+    return obj;
   }
 }

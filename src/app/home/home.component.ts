@@ -13,12 +13,16 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+
 })
 export class HomeComponent implements OnInit {
+
+  isTableExpanded = false;
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ["OrderId", "OrderDate", "Status", "actions"];
@@ -46,14 +50,16 @@ searchKey: string;
 
   }
 
-  // sort
+
+
+  // sort // redundat   remove after confirming it does not break anything
   sortBy(key){
     this.sortKey = key;
     this.sortDirection++;
     this.sort();
 
   }
-
+// redundat   remove after confirming it does not break anything
   sort(){
    if(this.sortDirection == 1){
       this.data = this.data.sort((a, b)=>{
@@ -78,7 +84,7 @@ searchKey: string;
      this.sortKey = null;
    }
   }
-
+// redundat   remove after confirming it does not break anything
   // form funcs
   toggleBulkEdit(){
     console.log(this.data);
@@ -90,12 +96,12 @@ searchKey: string;
 
 
      sharedata(data){
-      this.orderService.setData(data);
+      this.orderService.setData(data, false);
     }
 
 // remove row start
-  async removeRow(index, row){
-    this.data.splice(index, 1);
+  async removeRow(row){
+
 
     const db = await openDB("OrdersDB", 1, {
      upgrade(db) {
@@ -109,13 +115,12 @@ searchKey: string;
 console.log(typeof row.OrderId)
 
 
-db.delete("OrderStoreDB", row.OrderId)
-
-db.getAllKeys("OrderStoreDB").then((keys) => {
- console.log(keys);
-
-
+db.delete("OrderStoreDB", row.OrderId).then(result => {
+  // needs to change, unecces.. expensive, especially for large docs, splice could work
+this.getData()
 })
+
+
 
 
  }
@@ -169,9 +174,27 @@ onCreate(){
 this.dialog.open(OrderComponent, dialogueConfig);
 this.dialog.afterAllClosed.subscribe(result => {
   this.getData();
+  this.orderService.setData('', false);
 })
 
-}
 
 
 }
+
+
+onEdit(row){
+  this.orderService.setData(row, true);
+  console.log("on edit called", row);
+  this.onCreate();
+
+
+}
+
+
+
+view(row){
+  this.orderService.setData(row, false);
+}
+
+}
+
